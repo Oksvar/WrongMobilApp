@@ -1,0 +1,88 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+             xmlns:local="clr-namespace:NewMobilApp"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:viewmodel="clr-namespace:NewMobilApp.ViewModel"
+             x:Class="NewMobilApp.MainPage">
+
+    <d:ContentPage.BindingContext>
+        <viewmodel:SkiViewModel />
+    </d:ContentPage.BindingContext>
+
+    <Grid
+        ColumnSpacing="8"
+        CompressedLayout.IsHeadless="True"
+        RowSpacing="0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <ListView ItemsSource="{Binding skis}"
+                  Grid.ColumnSpan="2"
+                  SeparatorColor="Red"
+                  
+                  ItemSelected="ListView_ItemSelected"
+                  SeparatorVisibility="None"
+                  HasUnevenRows="True">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <Frame
+                            InputTransparent="True"
+                            Margin="10,5" Padding="0"
+                            BackgroundColor="White" CornerRadius="10"
+                            HeightRequest="125" IsClippedToBounds="True"
+                            Visual="Material">
+                            <Grid Padding="0" ColumnSpacing="10">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="125" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                
+                                <StackLayout
+                                    Grid.Column="1" Padding="10"
+                                    VerticalOptions="Center">
+                                    <Label FontSize="Large" Text="{Binding resort}" />
+                                    <Label FontSize="Medium" Text="{Binding hotel}" />
+                                    <Label FontSize="Medium" Text="{Binding dates}" />
+                                    <Label FontSize="Medium" Text="{Binding rooms}" />
+                                </StackLayout>
+                            </Grid>
+                        </Frame>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+
+        </ListView>
+
+
+        <Button
+            Grid.Row="1"
+            Grid.Column="0"
+            Grid.ColumnSpan="1"
+            Margin="8"
+            Command="{Binding GetSkiCommand}"
+            Style="{StaticResource ButtonOutline}"
+            IsEnabled="{Binding IsNotBusy}"
+            Text=" Ski areas" />
+
+      
+
+        <ActivityIndicator
+            Grid.RowSpan="2"
+            Grid.ColumnSpan="2"
+            HorizontalOptions="FillAndExpand"
+            IsRunning="{Binding IsBusy}"
+            IsVisible="{Binding IsBusy}"
+            VerticalOptions="CenterAndExpand" />
+    </Grid>
+
+</ContentPage>
